@@ -9,6 +9,9 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage
 )
 
+import os 
+import json
+import getStockInfo
 
 app = Flask(__name__)
 
@@ -45,7 +48,15 @@ def handle_message(event):
     message=event.message.text
 
     if message =="查詢恐慌指數" :
-        replyMessage = "查詢恐慌指數中..."
+        fear_index= getStockInfo.getFearIndex()
+        maintenanceMargin = getStockInfo.getMaintenanceMargin()
+        stock_info_data={**fear_index,**maintenanceMargin}
+        message_text = """
+            Fear Index: {},
+            Fear Index Status: {},
+            大盤融資維持率:{}
+        """
+        replyMessage = message_text.format(stock_info_data["Fear Index"],stock_info_data["Fear Index Status"],stock_info_data["大盤融資維持率"])
     else:
         replyMessage="查詢不到"
 
@@ -58,7 +69,8 @@ def handle_message(event):
 if __name__ == "__main__":
     
     # == 本地用ngrok測試====
+    app.run(port=5000)
 
 
     # 上到Render
-    app.run(debug=True)
+    # app.run(debug=True)

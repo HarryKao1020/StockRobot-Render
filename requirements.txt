@@ -9,3 +9,4 @@ datetime
 matplotlib
 mpl_finance
 selenium
+gunicorn
