@@ -8,5 +8,4 @@ pandas
 datetime 
 matplotlib
 mpl_finance
-gunicorn
 selenium
