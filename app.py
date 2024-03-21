@@ -10,6 +10,7 @@ from linebot.models import (
 )
 from dotenv import load_dotenv
 import os;
+import getStockInfo
 
 # 載入 .env 文件中的環境變數
 load_dotenv()
@@ -59,11 +60,19 @@ def handle_message(event):
     message=event.message.text
 
     if message =="查詢恐慌指數" :
-        replyMessage = "查詢恐慌指數中..."
+        fear_index= getStockInfo.getFearIndex()
+        maintenanceMargin = getStockInfo.getMaintenanceMargin()
+        stock_info_data={**fear_index,**maintenanceMargin}
+        message_text = """
+            Fear Index: {},
+            Fear Index Status: {},
+            大盤融資維持率:{}
+        """
+        replyMessage = message_text.format(stock_info_data["Fear Index"],stock_info_data["Fear Index Status"],stock_info_data["大盤融資維持率"])
     else:
         replyMessage="查詢不到"
 
-    # 當收到文字訊息時回覆相同的訊息
+    # 當收到文字訊息時回覆replyMessage
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=replyMessage)
