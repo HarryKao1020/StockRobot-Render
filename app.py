@@ -8,13 +8,27 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage
 )
+from dotenv import load_dotenv
+import os;
 
+# 載入 .env 文件中的環境變數
+load_dotenv()
 
 app = Flask(__name__)
+# 設定成dev模式
+app.config['FLASK_ENV'] = 'development'
+
+# 讀取環境變數中的敏感資訊
+CHANNEL_ACCESS_TOKEN = os.getenv('CHANNEL_ACCESS_TOKEN')
+CHANNEL_SECRET = os.getenv('CHANNEL_SECRET')
+
+# 如果是None 跳出錯誤訊息
+if CHANNEL_ACCESS_TOKEN is None or CHANNEL_SECRET is None:
+    raise ValueError("Missing LINE API credentials. Make sure CHANNEL_ACCESS_TOKEN and CHANNEL_SECRET are set.")
 
 # 設置你的 Line Bot 的 Channel Access Token 和 Channel Secret
-line_bot_api = LineBotApi('gIS4eSAOyETZv18tiyNcT4ZZ6274L9UuhLjSowpDjuqYf4dFCNB37+saXJfI1FSr85uiKqqrhteAxVCD3Yjalx/4zC3rshDGfm1/xZXIZmf4pFY2HYnRLs3LqbNiJAmBXAIOwCqSEZTqqnzNa8mfkwdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('04279870980e7421fbf1b27cc03165c2')
+line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(CHANNEL_SECRET)
 
 # 自己的userId / 未來開放就要拿掉
 user_id='U2032ae75254e026706d91546f58b9af1'
@@ -58,7 +72,4 @@ def handle_message(event):
 if __name__ == "__main__":
     
     # == 本地用ngrok測試====
-
-
-    # 上到Render
-    app.run(debug=True)
+    app.run(host='0.0.0.0' ,port=5000)

@@ -1,12 +1,17 @@
 line-bot-sdk
 flask
-openai
+matplotlib
 numpy
 beautifulsoup4
 requests
 pandas
 datetime 
-matplotlib
-mpl_finance
 selenium
-gunicorn
+
+
+
+# 取得環境變數
+python-dotenv
+
+
+# mpl_finance 財經
