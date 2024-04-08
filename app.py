@@ -80,7 +80,7 @@ def handle_message(event):
         stock_code, buy_price = message.split('/')
         try:
             buy_price = float(buy_price)
-            stop_loss_price, target_price = stop_loss_calculator.calculate_stop_loss(
+            stop_loss_five_percent, stop_loss_four_percent = stop_loss_calculator.calculate_stop_loss(
                 buy_price)
 
             ma_data = stop_loss_calculator.calculate_moving_averages(
@@ -91,8 +91,8 @@ def handle_message(event):
             current_20ma_diff = ma_data['20MA_diff'].iloc[-1]
             current_60ma_diff = ma_data['60MA_diff'].iloc[-1]
 
-            message = f"停損價格（5%）：{stop_loss_price}\n"
-            message += f"目標價格（+10%）：{target_price}\n"
+            message = f"停損價格（-5%）：{stop_loss_five_percent}\n"
+            message += f"停損價格（-4%）：{stop_loss_four_percent}\n"
             message += f"5MA與買進價格的差距百分比：{current_5ma_diff:.2f}%\n"
             message += f"10MA與買進價格的差距百分比：{current_10ma_diff:.2f}%\n"
             message += f"20MA與買進價格的差距百分比：{current_20ma_diff:.2f}%\n"
