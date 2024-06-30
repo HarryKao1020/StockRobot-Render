@@ -2,16 +2,8 @@ line-bot-sdk
 flask
 matplotlib
 numpy
-beautifulsoup4
 requests
 pandas
 datetime 
-selenium
 shioaji1.2.3 
-
-
-# 取得環境變數
 python-dotenv
-
-
-# mpl_finance 財經

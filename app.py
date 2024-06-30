@@ -10,7 +10,6 @@ from linebot.models import (
 )
 from dotenv import load_dotenv
 import os
-import getStockInfo
 import stop_loss_calculator
 
 # 載入 .env 文件中的環境變數
@@ -62,18 +61,9 @@ def handle_message(event):
 
     message = event.message.text
 
-    # ======恐慌指數=====
-    if message == "查詢恐慌指數":
-        fear_index = getStockInfo.getFearIndex()
-        maintenanceMargin = getStockInfo.getMaintenanceMargin()
-        stock_info_data = {**fear_index, **maintenanceMargin}
-        message_text = """
-            Fear Index: {},
-            Fear Index Status: {},
-            大盤融資維持率:{}
-        """
-        replyMessage = message_text.format(
-            stock_info_data["Fear Index"], stock_info_data["Fear Index Status"], stock_info_data["大盤融資維持率"])
+    # 設定停損點
+    if message == "哈囉":
+        replyMessage = "hello"
     elif message.startswith('設定停損點'):
         replyMessage = "請輸入股票代碼及買進價格，例如：2330/670"
     elif '/' in message:
