@@ -4,6 +4,7 @@ FROM ubuntu:latest
 RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-dev \
+    python3-venv \
     build-essential \
     wget \
     unzip \
@@ -11,18 +12,20 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     && apt-get clean
 
-# 在容器內建立工作目錄
-WORKDIR /app
+# 创建并激活虚拟环境
+RUN python3 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
 
 # 複製所需的程式碼到容器內的工作目錄
 COPY . /app
 
+# 在容器內建立工作目錄
+WORKDIR /app
 
 # 安裝所需的 Python 套件
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install -r requirements.txt
 
-# # 設定環境變量，避免一些安裝時的警告訊息
-# ENV DEBIAN_FRONTEND=noninteractive
 
 EXPOSE 5000
 

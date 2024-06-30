@@ -1,0 +1,4 @@
+jupyterfiles/
+.vscode/
+.ipynb_checkpoints/
+*.csv
